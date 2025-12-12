@@ -1,12 +1,3 @@
-# min_ell_theta.py
-#
-# Programming Problem 2: Parts (a)–(d)
-#
-# All required functions are implemented in this single file.
-
-
-# -----------------------------------------------------------
-# Part (a)
 # -----------------------------------------------------------
 def learn_theta(data, colors):
     """
@@ -28,10 +19,7 @@ def learn_theta(data, colors):
             if min_red is None or x < min_red:
                 min_red = x
 
-    # Return midpoint
     return 0.5 * (max_blue + min_red)
-
-
 
 # -----------------------------------------------------------
 # Part (b)
@@ -50,7 +38,6 @@ def compute_ell(data, colors, theta):
             loss += 1
 
     return float(loss)
-
 
 
 # -----------------------------------------------------------
@@ -79,7 +66,6 @@ def minimize_ell(data, colors):
     return float(best_theta)
 
 
-
 # -----------------------------------------------------------
 # Part (d) — Linear-time algorithm assuming data is sorted
 # -----------------------------------------------------------
@@ -95,17 +81,13 @@ def minimize_ell_sorted(data, colors):
     """
 
     n = len(data)
-
-    # Precompute: total number of red ≤ θ initially (θ < all data)
     red_le = 0
-    blue_gt = colors.count('blue')  # initially, θ is −∞ → all blues counted
+    blue_gt = colors.count('blue')
 
     best_loss = red_le + blue_gt
-    best_theta = data[0]  # any θ before the first data point
+    best_theta = data[0]
 
-    # Sweep over positions where θ = data[i]
     for i in range(n):
-        # When θ passes data[i], update red_le and blue_gt accordingly
         if colors[i] == 'red':
             red_le += 1
         else:
