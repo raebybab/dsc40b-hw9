@@ -72,27 +72,16 @@ class _DisjointSetForestCore:
 # ================================
 
 def slc(graph, d, k):
-    """
-    Perform single linkage clustering on an undirected graph using Kruskal’s algorithm.
-    Return a frozenset of k frozensets, each representing a cluster.
-    """
-
-    # All nodes in the graph
     nodes = list(graph.nodes)
-
-    # Initialize DSF with each node in its own set
     dsf = DisjointSetForest(nodes)
     num_clusters = len(nodes)
 
-    # Build list of weighted edges: (weight, u, v)
     weighted_edges = []
     for u, v in graph.edges:
         weighted_edges.append((d((u, v)), u, v))
 
-    # Sort edges by weight (ascending)
     weighted_edges.sort(key=lambda x: x[0])
 
-    # Kruskal-like merging until only k clusters remain
     for weight, u, v in weighted_edges:
         if num_clusters == k:
             break
@@ -100,7 +89,6 @@ def slc(graph, d, k):
             dsf.union(u, v)
             num_clusters -= 1
 
-    # Build clusters by grouping nodes with the same representative
     clusters = {}
     for node in nodes:
         rep = dsf.find_set(node)
@@ -108,5 +96,4 @@ def slc(graph, d, k):
             clusters[rep] = set()
         clusters[rep].add(node)
 
-    # Convert to required output format
     return frozenset(frozenset(cluster) for cluster in clusters.values())
